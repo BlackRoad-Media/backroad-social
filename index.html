@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BackRoad - Social Platform for Depth Over Engagement</title>
+    <meta name="description" content="The social platform that respects you. Chronological feeds, no ads, creator-owned. Join the movement for humane social media.">
+    <style>
+        :root {
+            --black: #000000;
+            --white: #FFFFFF;
+            --amber: #F5A623;
+            --hot-pink: #FF1D6C;
+            --electric-blue: #2979FF;
+            --violet: #9C27B0;
+            --space-xs: 8px;
+            --space-sm: 13px;
+            --space-md: 21px;
+            --space-lg: 34px;
+            --space-xl: 55px;
+            --space-2xl: 89px;
+            --space-3xl: 144px;
+            --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+            line-height: 1.618;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 55px 55px;
+            animation: grid-move 20s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(55px, 55px); }
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.12;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .orb-1 {
+            top: 10%;
+            left: 20%;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--amber), var(--hot-pink));
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .orb-2 {
+            top: 60%;
+            right: 15%;
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--violet), var(--electric-blue));
+            animation: float 20s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(50px, -50px); }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            padding: var(--space-md) var(--space-xl);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        nav .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--amber), var(--hot-pink), var(--violet));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn {
+            padding: var(--space-sm) var(--space-lg);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s var(--ease);
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--hot-pink);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 29, 108, 0.4);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 var(--space-xl);
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero {
+            padding: calc(var(--space-3xl) * 2) 0 var(--space-3xl);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: var(--space-md);
+            line-height: 1.1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--amber) 0%, var(--hot-pink) 38.2%, var(--violet) 61.8%, var(--electric-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 28px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: var(--space-xl);
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .manifesto {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: var(--space-xl);
+            margin: var(--space-3xl) 0;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .manifesto h2 {
+            font-size: 48px;
+            margin-bottom: var(--space-lg);
+            text-align: center;
+        }
+
+        .manifesto ul {
+            list-style: none;
+            font-size: 20px;
+            line-height: 2;
+        }
+
+        .manifesto li {
+            padding: var(--space-sm) 0;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .manifesto li::before {
+            content: '🛣️';
+            margin-right: var(--space-md);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-lg);
+            margin: var(--space-3xl) 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: var(--space-lg);
+            transition: all 0.3s var(--ease);
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-4px);
+            border-color: var(--hot-pink);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: var(--space-md);
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: var(--space-sm);
+            color: var(--hot-pink);
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .comparison {
+            margin: var(--space-3xl) 0;
+        }
+
+        .comparison h2 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: var(--space-xl);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--space-lg);
+        }
+
+        .comparison-col {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: var(--space-lg);
+        }
+
+        .comparison-col.highlight {
+            border: 2px solid var(--hot-pink);
+            background: rgba(255, 29, 108, 0.05);
+        }
+
+        .comparison-col h3 {
+            font-size: 24px;
+            margin-bottom: var(--space-md);
+        }
+
+        .comparison-col ul {
+            list-style: none;
+        }
+
+        .comparison-col li {
+            padding: var(--space-xs) 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .comparison-col li.yes::before {
+            content: '✓';
+            color: var(--hot-pink);
+            margin-right: var(--space-xs);
+            font-weight: bold;
+        }
+
+        .comparison-col li.no::before {
+            content: '✗';
+            color: rgba(255, 255, 255, 0.3);
+            margin-right: var(--space-xs);
+        }
+
+        .pricing {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 24px;
+            padding: var(--space-3xl);
+            margin: var(--space-3xl) 0;
+            text-align: center;
+        }
+
+        .pricing h2 {
+            font-size: 56px;
+            margin-bottom: var(--space-xl);
+        }
+
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: var(--space-lg);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: var(--space-xl);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid var(--hot-pink);
+            background: rgba(255, 29, 108, 0.05);
+        }
+
+        .pricing-card h3 {
+            font-size: 32px;
+            margin-bottom: var(--space-md);
+        }
+
+        .price {
+            font-size: 56px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--hot-pink), var(--violet));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: var(--space-lg) 0;
+        }
+
+        .price span {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin: var(--space-lg) 0;
+        }
+
+        .pricing-card li {
+            padding: var(--space-xs) 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .pricing-card li::before {
+            content: '✓';
+            color: var(--hot-pink);
+            margin-right: var(--space-sm);
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: var(--space-xl) 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 42px; }
+            .hero p { font-size: 20px; }
+            .comparison-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <nav>
+        <div class="container">
+            <div class="logo">🛣️ BackRoad</div>
+            <a href="#join" class="btn btn-primary">Join Waitlist</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Social Media That<br><span class="gradient-text">Actually Respects You</span></h1>
+            <p>No algorithms. No ads. No manipulation. Just human connection, chronological feeds, and creators who own their communities.</p>
+            <div style="display: flex; gap: var(--space-md); justify-content: center; margin-top: var(--space-xl);">
+                <a href="#join" class="btn btn-primary" style="font-size: 20px; padding: var(--space-md) var(--space-2xl);">Join the Movement →</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="manifesto">
+            <h2>The BackRoad Manifesto</h2>
+            <ul>
+                <li>Chronological feeds by default. See what you actually subscribed to.</li>
+                <li>No algorithmic manipulation. We show you posts in the order they were created.</li>
+                <li>Creators own their followers. Export your social graph anytime.</li>
+                <li>No ads. Ever. Revenue comes from optional subscriptions and creator tips.</li>
+                <li>No engagement metrics pressure. No view counts, no like counts visible to others.</li>
+                <li>Long-form content encouraged. Depth over dopamine hits.</li>
+                <li>Privacy-first. Your data is yours. We don't sell it.</li>
+                <li>Open protocols. You can move to another platform if we fail you.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2 style="text-align: center; font-size: 48px; margin-bottom: var(--space-xl);">Built for Humans, Not Metrics</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📅</div>
+                <h3>Chronological Feeds</h3>
+                <p>See posts in the order they were created. No algorithm deciding what you should see.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🚫</div>
+                <h3>Zero Ads</h3>
+                <p>No ads, no trackers, no creepy surveillance. Just content from people you follow.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🏠</div>
+                <h3>Creator Ownership</h3>
+                <p>Your followers are yours. Export your social graph anytime. No platform lock-in.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3>Deep Conversations</h3>
+                <p>Long-form posts encouraged. Thoughtful comments rewarded. Depth over engagement.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Privacy First</h3>
+                <p>Your data is yours. We don't sell it, train AI on it, or share it with advertisers.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <h3>Creator Support</h3>
+                <p>Direct tipping, subscriptions, and premium content. Creators earn fair revenue.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="comparison">
+            <h2>Why Leave the Old Platforms?</h2>
+            <div class="comparison-grid">
+                <div class="comparison-col">
+                    <h3>Twitter / X</h3>
+                    <ul>
+                        <li class="no">Algorithmic timeline</li>
+                        <li class="no">Ads everywhere</li>
+                        <li class="no">Engagement bait rewarded</li>
+                        <li class="no">No creator ownership</li>
+                        <li class="no">Toxic metrics pressure</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-col">
+                    <h3>Facebook</h3>
+                    <ul>
+                        <li class="no">Algorithm decides everything</li>
+                        <li class="no">Data sold to advertisers</li>
+                        <li class="no">Privacy violations</li>
+                        <li class="no">Engagement manipulation</li>
+                        <li class="no">Mental health toll</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-col highlight">
+                    <h3>BackRoad</h3>
+                    <ul>
+                        <li class="yes">Chronological feeds</li>
+                        <li class="yes">Zero ads, ever</li>
+                        <li class="yes">Creator ownership</li>
+                        <li class="yes">Privacy-first</li>
+                        <li class="yes">Depth over engagement</li>
+                        <li class="yes">Human connection</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="pricing">
+            <h2>Simple, Honest Pricing</h2>
+            <div class="pricing-cards">
+                <div class="pricing-card">
+                    <h3>Free</h3>
+                    <div class="price">$0<span>/forever</span></div>
+                    <ul>
+                        <li>Chronological feed</li>
+                        <li>Follow unlimited creators</li>
+                        <li>Post text, images, links</li>
+                        <li>No ads, no tracking</li>
+                        <li>Export your data anytime</li>
+                    </ul>
+                    <a href="#join" class="btn btn-primary" style="width: 100%; margin-top: var(--space-lg);">Join Free →</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <h3>Creator</h3>
+                    <div class="price">$15<span>/month</span></div>
+                    <ul>
+                        <li>Everything in Free</li>
+                        <li>Premium content subscriptions</li>
+                        <li>Direct tipping from followers</li>
+                        <li>Analytics dashboard</li>
+                        <li>Priority support</li>
+                        <li>Custom branding</li>
+                        <li>Newsletter integration</li>
+                    </ul>
+                    <a href="#join" class="btn btn-primary" style="width: 100%; margin-top: var(--space-lg);">Start Creating →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="join" class="container">
+        <div style="background: rgba(255, 255, 255, 0.02); border-radius: 24px; padding: var(--space-3xl); text-align: center; margin: var(--space-3xl) 0;">
+            <h2 style="font-size: 56px; margin-bottom: var(--space-md);">Join the Movement</h2>
+            <p style="font-size: 24px; color: rgba(255, 255, 255, 0.7); margin-bottom: var(--space-xl);">Be part of the social platform that puts humans first</p>
+            <div style="max-width: 500px; margin: 0 auto;">
+                <input type="email" placeholder="Enter your email" style="width: 100%; padding: var(--space-md); border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.2); background: rgba(255, 255, 255, 0.05); color: white; font-size: 18px; margin-bottom: var(--space-md);">
+                <button class="btn btn-primary" style="width: 100%; font-size: 20px; padding: var(--space-md);">Join Waitlist →</button>
+            </div>
+            <p style="font-size: 14px; color: rgba(255, 255, 255, 0.5); margin-top: var(--space-md);">Launching early 2026 • No spam, ever</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 BlackRoad Media, Inc. All rights reserved.</p>
+            <p style="margin-top: var(--space-sm);">Social media for humans, by humans.</p>
+        </div>
+    </footer>
+
+    <script>
+        console.log('BackRoad - The social platform that respects you');
+        console.log('Join the movement: blackroad.systems@gmail.com');
+    </script>
+</body>
+</html>
